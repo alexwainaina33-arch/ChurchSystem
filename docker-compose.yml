@@ -1,0 +1,73 @@
+﻿version: "3.9"
+
+services:
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    container_name: church-postgres
+    environment:
+      POSTGRES_DB: churchdb
+      POSTGRES_USER: church_user
+      POSTGRES_PASSWORD: church_pass_2024
+    ports:
+      - "5433:5432"
+    volumes:
+      - church-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U church_user -d churchdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: church-redis
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0
+    container_name: church-keycloak
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/churchdb
+      KC_DB_USERNAME: church_user
+      KC_DB_PASSWORD: church_pass_2024
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./infrastructure/keycloak/church-realm.json:/opt/keycloak/data/import/church-realm.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    container_name: church-api
+    environment:
+      DATABASE_URL: postgresql+asyncpg://church_user:church_pass_2024@postgres:5432/churchdb
+      REDIS_URL: redis://redis:6379/0
+      KEYCLOAK_URL: http://keycloak:8080
+      SECRET_KEY: church_secret_key_change_in_production_2024
+      ENVIRONMENT: development
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./services/api-gateway:/app
+
+volumes:
+  church-pgdata:
