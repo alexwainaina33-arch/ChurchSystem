@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Church, Users, CalendarCheck, DollarSign, FolderOpen, MessageSquare, LayoutDashboard, TrendingUp } from "lucide-react";
+import { Church, Users, CalendarCheck, DollarSign, FolderOpen, MessageSquare, LayoutDashboard, TrendingUp, Settings } from "lucide-react";
 
 const nav = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -11,6 +11,7 @@ const nav = [
   { href: "/projects", label: "Projects", icon: FolderOpen },
   { href: "/messages", label: "Messages", icon: MessageSquare },
   { href: "/finance", label: "Finance", icon: TrendingUp },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export default function Sidebar() {

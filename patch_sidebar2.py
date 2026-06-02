@@ -1,4 +1,5 @@
-"use client";
+﻿import os
+txt = '''"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Church, Users, CalendarCheck, DollarSign, FolderOpen, MessageSquare, LayoutDashboard, TrendingUp, Settings } from "lucide-react";
@@ -40,3 +41,6 @@ export default function Sidebar() {
     </aside>
   );
 }
+'''
+open('/app/frontend/Sidebar.tsx', 'w').write(txt)
+print('done')
