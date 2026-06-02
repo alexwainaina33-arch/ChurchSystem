@@ -1,4 +1,5 @@
-"use client";
+﻿import os
+txt = '''"use client";
 import { useEffect, useState } from "react";
 import Sidebar from "../../../components/Sidebar";
 import api from "../../../lib/api";
@@ -128,3 +129,6 @@ export default function MemberDetailPage() {
     </div>
   );
 }
+'''
+open('/app/frontend/member_detail2.tsx', 'w').write(txt)
+print('done')
