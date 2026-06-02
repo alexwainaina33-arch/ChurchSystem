@@ -19,10 +19,12 @@ export default function FinancePage() {
   const assets = data ? data.accounts.filter(a => a.type === "asset") : [];
   const income = data ? data.accounts.filter(a => a.type === "income") : [];
   const expenses = data ? data.accounts.filter(a => a.type === "expense") : [];
-  const equity = data ? data.accounts.filter(a => a.type === "equity") : [];
   const totalIncome = income.reduce((s, a) => s + a.balance_kes, 0);
   const totalExpenses = expenses.reduce((s, a) => s + a.balance_kes, 0);
   const netSurplus = totalIncome - totalExpenses;
+  const totalDebits = data ? data.accounts.filter(a => a.type === "asset" || a.type === "expense").reduce((s,a) => s + a.balance_kes, 0) : 0;
+  const totalCredits = data ? data.accounts.filter(a => a.type === "income" || a.type === "liability" || a.type === "equity").reduce((s,a) => s + a.balance_kes, 0) : 0;
+  const balanced = totalDebits === totalCredits;
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -36,7 +38,7 @@ export default function FinancePage() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">Finance Dashboard</h1>
-            <p className="text-gray-500 text-sm">Double-entry GL — Trial Balance</p>
+            <p className="text-gray-500 text-sm">Double-entry GL — Auto-generated from transactions</p>
           </div>
         </div>
 
@@ -57,28 +59,48 @@ export default function FinancePage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-6 mb-6">
-              <div className="bg-white rounded-xl shadow-sm p-6">
-                <h2 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">Assets</h2>
-                {assets.map(a => (
-                  <div key={a.code} className="flex justify-between py-2 border-b border-gray-50">
-                    <span className="text-sm text-gray-600">{a.code} — {a.name}</span>
-                    <span className="text-sm font-semibold text-gray-800">KES {a.balance_kes.toLocaleString()}</span>
-                  </div>
-                ))}
+            <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Trial Balance</h2>
+                <span className={"text-xs px-3 py-1 rounded-full font-semibold " + (balanced ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700")}>
+                  {balanced ? "BALANCED" : "UNBALANCED"}
+                </span>
               </div>
-              <div className="bg-white rounded-xl shadow-sm p-6">
-                <h2 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">Income</h2>
-                {income.map(a => (
-                  <div key={a.code} className="flex justify-between py-2 border-b border-gray-50">
-                    <span className="text-sm text-gray-600">{a.code} — {a.name}</span>
-                    <span className="text-sm font-semibold text-green-600">KES {a.balance_kes.toLocaleString()}</span>
-                  </div>
-                ))}
-              </div>
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="text-left text-xs text-gray-500 font-medium px-4 py-2">Code</th>
+                    <th className="text-left text-xs text-gray-500 font-medium px-4 py-2">Account Name</th>
+                    <th className="text-left text-xs text-gray-500 font-medium px-4 py-2">Type</th>
+                    <th className="text-right text-xs text-gray-500 font-medium px-4 py-2">Debit (KES)</th>
+                    <th className="text-right text-xs text-gray-500 font-medium px-4 py-2">Credit (KES)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.accounts.map(a => {
+                    const isDebit = a.type === "asset" || a.type === "expense";
+                    return (
+                      <tr key={a.code} className="border-b border-gray-50 hover:bg-gray-50">
+                        <td className="px-4 py-2 text-sm text-gray-500">{a.code}</td>
+                        <td className="px-4 py-2 text-sm text-gray-800">{a.name}</td>
+                        <td className="px-4 py-2 text-xs capitalize text-gray-500">{a.type}</td>
+                        <td className="px-4 py-2 text-sm text-right font-medium text-gray-800">{isDebit && a.balance_kes > 0 ? a.balance_kes.toLocaleString() : "—"}</td>
+                        <td className="px-4 py-2 text-sm text-right font-medium text-green-600">{!isDebit && a.balance_kes > 0 ? a.balance_kes.toLocaleString() : "—"}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+                <tfoot className="border-t-2 border-gray-300 bg-gray-50">
+                  <tr>
+                    <td colSpan={3} className="px-4 py-3 text-sm font-bold text-gray-800">TOTAL</td>
+                    <td className="px-4 py-3 text-sm font-bold text-right text-gray-800">{totalDebits.toLocaleString()}</td>
+                    <td className="px-4 py-3 text-sm font-bold text-right text-green-600">{totalCredits.toLocaleString()}</td>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-xl shadow-sm p-6">
               <h2 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">Recent GL Transactions</h2>
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-100">

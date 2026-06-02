@@ -1,4 +1,5 @@
-"use client";
+﻿import os
+txt = '''"use client";
 import { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import api from "../../lib/api";
@@ -129,3 +130,6 @@ export default function FinancePage() {
     </div>
   );
 }
+'''
+open('/app/frontend/finance.tsx', 'w').write(txt)
+print('done')

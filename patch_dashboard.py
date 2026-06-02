@@ -1,4 +1,6 @@
-"use client";
+﻿import os
+os.makedirs('/app/frontend', exist_ok=True)
+txt = '''"use client";
 import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import api from "../lib/api";
@@ -124,3 +126,6 @@ export default function DashboardPage() {
     </div>
   );
 }
+'''
+open('/app/frontend/dashboard.tsx', 'w').write(txt)
+print('done')
