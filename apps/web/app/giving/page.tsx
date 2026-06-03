@@ -13,14 +13,14 @@ const BRANCH_ID = "00000000-0000-0000-0000-000000000002";
 function GivingContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState<any[]>([]);
   const [members, setMembers] = useState<any[]>([]);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
-  const [filteredMembers, setFilteredMembers] = useState([]);
+  const [filteredMembers, setFilteredMembers] = useState<any[]>([]);
   const [selectedMember, setSelectedMember] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const formRef = useRef(null);

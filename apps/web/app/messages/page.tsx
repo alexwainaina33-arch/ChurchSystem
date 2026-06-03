@@ -9,7 +9,7 @@ const CHURCH_ID = "00000000-0000-0000-0000-000000000001";
 const BRANCH_ID = "00000000-0000-0000-0000-000000000002";
 
 export default function MessagesPage() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

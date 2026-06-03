@@ -9,7 +9,7 @@ const CHURCH_ID = "00000000-0000-0000-0000-000000000001";
 
 export default function SettingsPage() {
   const [church, setChurch] = useState(null);
-  const [branches, setBranches] = useState([]);
+  const [branches, setBranches] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showBranchForm, setShowBranchForm] = useState(false);
