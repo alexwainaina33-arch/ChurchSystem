@@ -8,12 +8,12 @@ import { Settings, GitBranch, Plus } from "lucide-react";
 const CHURCH_ID = "00000000-0000-0000-0000-000000000001";
 
 export default function SettingsPage() {
-  const [church, setChurch] = useState(null);
+  const [church, setChurch] = useState<any>(null);
   const [branches, setBranches] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showBranchForm, setShowBranchForm] = useState(false);
-  const branchRef = useRef(null);
+  const branchRef = useRef<HTMLFormElement>(null);
 
   const load = () => {
     Promise.all([
