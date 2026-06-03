@@ -43,7 +43,7 @@ export default function MessagesPage() {
     } finally { setSaving(false); }
   };
 
-  const channelColor = (c) => {
+  const channelColor = (c: string) => {
     if (c === "sms") return "bg-green-100 text-green-700";
     if (c === "whatsapp") return "bg-emerald-100 text-emerald-700";
     if (c === "email") return "bg-blue-100 text-blue-700";
