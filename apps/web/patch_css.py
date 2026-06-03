@@ -1,0 +1,31 @@
+﻿import os
+txt = """@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+/* Mobile bottom nav breathing room */
+@media (max-width: 767px) {
+  main { padding-bottom: 5.5rem; }
+}
+
+/* Thin scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #a5b4fc; }
+
+/* Table mobile scroll */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+"""
+open('/app/frontend/globals.css', 'w').write(txt)
+print('CSS done')

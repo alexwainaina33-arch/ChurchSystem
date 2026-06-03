@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+﻿import os
+
+txt = """from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.models import church as church_models
@@ -31,3 +33,6 @@ app.include_router(giving.router, prefix="/api/v1/giving", tags=["Giving"])
 app.include_router(projects.router, prefix="/api/v1/projects", tags=["Projects"])
 app.include_router(messages.router, prefix="/api/v1/messages", tags=["Messages"])
 app.include_router(dashboard.router, prefix="/api/v1/dashboard", tags=["Dashboard"])
+"""
+open('/app/app/main.py', 'w').write(txt)
+print('done')

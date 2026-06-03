@@ -1,34 +1,36 @@
-'use client'
-import { useEffect, useState } from 'react'
-import Sidebar from '../../components/Sidebar'
-import api from '../../lib/api'
-import { UserPlus, Search, ChevronRight, Users, X } from 'lucide-react'
-import Link from 'next/link'
+﻿import os
+os.makedirs('/app/frontend/pages', exist_ok=True)
+txt = '''\'use client\'
+import { useEffect, useState } from \'react\'
+import Sidebar from \'../components/Sidebar\'
+import api from \'../lib/api\'
+import { UserPlus, Search, ChevronRight, Users, X } from \'lucide-react\'
+import Link from \'next/link\'
 
-const CHURCH_ID = '00000000-0000-0000-0000-000000000001'
-const BRANCH_ID = '00000000-0000-0000-0000-000000000002'
+const CHURCH_ID = \'00000000-0000-0000-0000-000000000001\'
+const BRANCH_ID = \'00000000-0000-0000-0000-000000000002\'
 
 const STATUS_COLORS: Record<string,string> = {
-  active:   'bg-emerald-50 text-emerald-700 border-emerald-200',
-  inactive: 'bg-gray-100 text-gray-500 border-gray-200',
-  visitor:  'bg-amber-50 text-amber-700 border-amber-200',
+  active:   \'bg-emerald-50 text-emerald-700 border-emerald-200\',
+  inactive: \'bg-gray-100 text-gray-500 border-gray-200\',
+  visitor:  \'bg-amber-50 text-amber-700 border-amber-200\',
 }
 
 export default function MembersPage() {
   const [members, setMembers]   = useState<any[]>([])
-  const [search, setSearch]     = useState('')
+  const [search, setSearch]     = useState(\'\')
   const [showForm, setShowForm] = useState(false)
   const [loading, setLoading]   = useState(true)
   const [saving, setSaving]     = useState(false)
   const [form, setForm]         = useState({
-    first_name:'', last_name:'', phone:'', email:'',
-    gender:'male', marital_status:'single',
-    membership_status:'active', occupation:''
+    first_name:\'\', last_name:\'\', phone:\'\', email:\'\',
+    gender:\'male\', marital_status:\'single\',
+    membership_status:\'active\', occupation:\'\'
   })
 
   const load = () => {
     setLoading(true)
-    api.get('/members/?church_id=' + CHURCH_ID + (search ? '&search=' + search : ''))
+    api.get(\'/members/?church_id=\' + CHURCH_ID + (search ? \'&search=\' + search : \'\'))
       .then(r => setMembers(r.data))
       .finally(() => setLoading(false))
   }
@@ -36,18 +38,18 @@ export default function MembersPage() {
   useEffect(() => { load() }, [search])
 
   const save = async () => {
-    if (!form.first_name || !form.last_name) return alert('First and last name required')
+    if (!form.first_name || !form.last_name) return alert(\'First and last name required\')
     setSaving(true)
     try {
-      await api.post('/members/', { ...form, church_id: CHURCH_ID, branch_id: BRANCH_ID })
+      await api.post(\'/members/\', { ...form, church_id: CHURCH_ID, branch_id: BRANCH_ID })
       setShowForm(false)
-      setForm({ first_name:'', last_name:'', phone:'', email:'', gender:'male', marital_status:'single', membership_status:'active', occupation:'' })
+      setForm({ first_name:\'\', last_name:\'\', phone:\'\', email:\'\', gender:\'male\', marital_status:\'single\', membership_status:\'active\', occupation:\'\' })
       load()
     } finally { setSaving(false) }
   }
 
   const F = ({ k, l, span=false }: { k:string, l:string, span?:boolean }) => (
-    <div className={span ? 'col-span-2' : ''}>
+    <div className={span ? \'col-span-2\' : \'\'}>
       <label className="text-xs text-gray-500 font-medium mb-1.5 block">{l}</label>
       <input className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm
                         focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400
@@ -133,7 +135,7 @@ export default function MembersPage() {
                 <table className="w-full min-w-[600px]">
                   <thead className="bg-gray-50 border-b border-gray-100">
                     <tr>
-                      {['Name','Phone','Gender','Status','Branch',''].map(h => (
+                      {[\'Name\',\'Phone\',\'Gender\',\'Status\',\'Branch\',\'\'].map(h => (
                         <th key={h} className="text-left text-xs text-gray-500 font-semibold
                                                uppercase tracking-wide px-4 py-3">{h}</th>
                       ))}
@@ -153,8 +155,8 @@ export default function MembersPage() {
                             </span>
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-sm text-gray-500">{m.phone || '—'}</td>
-                        <td className="px-4 py-3 text-sm text-gray-500 capitalize">{m.gender || '—'}</td>
+                        <td className="px-4 py-3 text-sm text-gray-500">{m.phone || \'—\'}</td>
+                        <td className="px-4 py-3 text-sm text-gray-500 capitalize">{m.gender || \'—\'}</td>
                         <td className="px-4 py-3">
                           <span className={`text-xs px-2.5 py-1 rounded-full border font-medium capitalize
                             ${STATUS_COLORS[m.membership_status] || STATUS_COLORS.inactive}`}>
@@ -203,9 +205,9 @@ export default function MembersPage() {
                   <F k="phone"      l="Phone" />
                   <F k="email"      l="Email" />
                   <F k="occupation" l="Occupation" span />
-                  <S k="gender"           l="Gender"         opts={[['male','Male'],['female','Female']]} />
-                  <S k="marital_status"   l="Marital Status" opts={[['single','Single'],['married','Married'],['widowed','Widowed'],['divorced','Divorced']]} />
-                  <S k="membership_status" l="Status"        opts={[['active','Active'],['inactive','Inactive'],['visitor','Visitor']]} />
+                  <S k="gender"           l="Gender"         opts={[[\'male\',\'Male\'],[\'female\',\'Female\']]} />
+                  <S k="marital_status"   l="Marital Status" opts={[[\'single\',\'Single\'],[\'married\',\'Married\'],[\'widowed\',\'Widowed\'],[\'divorced\',\'Divorced\']]} />
+                  <S k="membership_status" l="Status"        opts={[[\'active\',\'Active\'],[\'inactive\',\'Inactive\'],[\'visitor\',\'Visitor\']]} />
                 </div>
                 <div className="flex gap-3 mt-6">
                   <button onClick={() => setShowForm(false)}
@@ -217,7 +219,7 @@ export default function MembersPage() {
                     className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl
                                text-sm font-semibold shadow-sm shadow-indigo-200 transition-all
                                disabled:opacity-50 active:scale-[0.98]">
-                    {saving ? 'Saving...' : 'Save Member →'}
+                    {saving ? \'Saving...\' : \'Save Member →\'}
                   </button>
                 </div>
               </div>
@@ -228,3 +230,6 @@ export default function MembersPage() {
     </div>
   )
 }
+'''
+open('/app/frontend/pages/members.tsx', 'w').write(txt)
+print('Members done')

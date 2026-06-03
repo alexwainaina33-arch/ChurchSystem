@@ -1,12 +1,13 @@
-'use client'
-import { useEffect, useState, useRef } from 'react'
-import Sidebar from '../../components/Sidebar'
-import api from '../../lib/api'
-import Link from 'next/link'
-import { Plus, ChevronRight, Download, Calendar, X, Users, Heart, Car } from 'lucide-react'
+﻿import os
+txt = '''\'use client\'
+import { useEffect, useState, useRef } from \'react\'
+import Sidebar from \'../components/Sidebar\'
+import api from \'../lib/api\'
+import Link from \'next/link\'
+import { Plus, ChevronRight, Download, Calendar, X, Users, Heart, Car } from \'lucide-react\'
 
-const CHURCH_ID = '00000000-0000-0000-0000-000000000001'
-const BRANCH_ID = '00000000-0000-0000-0000-000000000002'
+const CHURCH_ID = \'00000000-0000-0000-0000-000000000001\'
+const BRANCH_ID = \'00000000-0000-0000-0000-000000000002\'
 
 export default function AttendancePage() {
   const [sessions, setSessions] = useState<any[]>([])
@@ -17,7 +18,7 @@ export default function AttendancePage() {
 
   const load = () => {
     setLoading(true)
-    api.get('/attendance/sessions/?church_id=' + CHURCH_ID)
+    api.get(\'/attendance/sessions/?church_id=\' + CHURCH_ID)
       .then(r => setSessions(r.data))
       .finally(() => setLoading(false))
   }
@@ -30,13 +31,13 @@ export default function AttendancePage() {
     const form = formRef.current
     if (!form) return
     const d: any = Object.fromEntries(new FormData(form))
-    if (!d.session_date) return alert('Session date is required')
+    if (!d.session_date) return alert(\'Session date is required\')
     setSaving(true)
     try {
-      await api.post('/attendance/sessions/', {
+      await api.post(\'/attendance/sessions/\', {
         church_id: CHURCH_ID, branch_id: BRANCH_ID,
         session_date: d.session_date, session_type: d.session_type,
-        service_name: d.service_name || '',
+        service_name: d.service_name || \'\',
         adult_count: n(d.adult_count), child_count: n(d.child_count),
         total_count: n(d.adult_count) + n(d.child_count),
         male_count: n(d.male_count), female_count: n(d.female_count),
@@ -45,22 +46,22 @@ export default function AttendancePage() {
         total_offering_kes: n(d.total_offering_kes),
         total_tithe_kes: n(d.total_tithe_kes),
         project_offering_kes: n(d.project_offering_kes),
-        notes: d.notes || ''
+        notes: d.notes || \'\'
       })
       setShowForm(false)
       load()
     } catch(e: any) {
-      alert('Error: ' + (e.response?.data?.detail || e.message))
+      alert(\'Error: \' + (e.response?.data?.detail || e.message))
     } finally { setSaving(false) }
   }
 
   const exportCSV = () => {
-    const headers = ['Date','Service','Adults','Children','Total','Male','Female','First Timers','Salvations','Cars','Motorbikes','Offering(KES)','Tithe(KES)','Project(KES)']
+    const headers = [\'Date\',\'Service\',\'Adults\',\'Children\',\'Total\',\'Male\',\'Female\',\'First Timers\',\'Salvations\',\'Cars\',\'Motorbikes\',\'Offering(KES)\',\'Tithe(KES)\',\'Project(KES)\']
     const rows = sessions.map((s: any) => [s.session_date, s.service_name||s.session_type, s.adult_count, s.child_count, s.total_count, s.male_count, s.female_count, s.first_time_visitors, s.salvations, s.cars_count, s.motorbikes_count, s.total_offering_kes, s.total_tithe_kes, s.project_offering_kes])
-    const csv = [headers, ...rows].map(r => r.join(',')).join('\n')
-    const a = document.createElement('a')
-    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv)
-    a.download = 'attendance_report.csv'; a.click()
+    const csv = [headers, ...rows].map(r => r.join(\',\')).join(\'\\n\')
+    const a = document.createElement(\'a\')
+    a.href = \'data:text/csv;charset=utf-8,\' + encodeURIComponent(csv)
+    a.download = \'attendance_report.csv\'; a.click()
   }
 
   const NF = ({ label, name }: { label: string, name: string }) => (
@@ -131,7 +132,7 @@ export default function AttendancePage() {
                 <table className="w-full min-w-[750px]">
                   <thead className="bg-gray-50 border-b border-gray-100">
                     <tr>
-                      {['Date','Service','Attendance','First Timers','Salvations','Offering','Tithe',''].map(h => (
+                      {[\'Date\',\'Service\',\'Attendance\',\'First Timers\',\'Salvations\',\'Offering\',\'Tithe\',\'\'].map(h => (
                         <th key={h} className="text-left text-xs text-gray-500 font-semibold
                                                uppercase tracking-wide px-4 py-3">{h}</th>
                       ))}
@@ -262,7 +263,7 @@ export default function AttendancePage() {
                     className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl
                                text-sm font-semibold shadow-sm shadow-indigo-200 transition-all
                                disabled:opacity-50 active:scale-[0.98]">
-                    {saving ? 'Saving...' : 'Save Session →'}
+                    {saving ? \'Saving...\' : \'Save Session →\'}
                   </button>
                 </div>
               </div>
@@ -273,3 +274,6 @@ export default function AttendancePage() {
     </div>
   )
 }
+'''
+open('/app/frontend/pages/attendance.tsx', 'w').write(txt)
+print('Attendance done')
