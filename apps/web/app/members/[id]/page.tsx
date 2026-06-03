@@ -9,7 +9,7 @@ import { ArrowLeft, DollarSign, Printer } from "lucide-react";
 export default function MemberDetailPage() {
   const params = useParams();
   const id = params.id;
-  const [member, setMember] = useState(null);
+  const [member, setMember] = useState<any>(null);
   const [giving, setGiving] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
