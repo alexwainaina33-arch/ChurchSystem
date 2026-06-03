@@ -38,7 +38,7 @@ export default function MessagesPage() {
         channel: d.channel, audience: d.audience
       });
       setShowForm(false); form.reset(); load();
-    } catch(e) {
+    } catch(e: any) {
       alert("Error: " + (e.response?.data?.detail || e.message));
     } finally { setSaving(false); }
   };

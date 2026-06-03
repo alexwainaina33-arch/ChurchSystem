@@ -27,7 +27,7 @@ export default function LoginPage() {
       localStorage.setItem('user_role', data.role)
       localStorage.setItem('username', username)
       router.push('/')
-    } catch(e) {
+    } catch(e: any) {
       setError('Cannot connect to server')
       setLoading(false)
     }

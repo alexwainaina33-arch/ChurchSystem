@@ -42,7 +42,7 @@ export default function ProfilePage() {
       if (!res.ok) { setErr(data.detail || 'Failed'); setLoading(false); return }
       setMsg('Password changed successfully')
       setOldPassword(''); setNewPassword(''); setConfirm('')
-    } catch(e) {
+    } catch(e: any) {
       setErr('Cannot connect to server')
     }
     setLoading(false)

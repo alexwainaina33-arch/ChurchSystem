@@ -36,7 +36,7 @@ export default function GivingPage() {
       setCategories(Array.isArray(c) ? c : [])
       setMembers(Array.isArray(m) ? m : [])
       setSummary(s || {})
-    } catch(e) { console.error(e) }
+    } catch(e: any) { console.error(e) }
   }
 
   function searchMembers(v: string) {
@@ -86,7 +86,7 @@ export default function GivingPage() {
       setSearch('')
       formRef.current?.reset()
       load()
-    } catch(e) { setMsg('Cannot connect to server') }
+    } catch(e: any) { setMsg('Cannot connect to server') }
     setSaving(false)
   }
 
