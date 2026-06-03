@@ -26,7 +26,7 @@ export default function ProfilePage() {
     router.push('/login')
   }
 
-  async function handleChangePassword(e) {
+  async function handleChangePassword(e: React.FormEvent) {
     e.preventDefault()
     setMsg(''); setErr('')
     if (newPassword !== confirm) { setErr('New passwords do not match'); return }

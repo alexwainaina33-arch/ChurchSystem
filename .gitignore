@@ -8,3 +8,7 @@ node_modules/
 *.log
 patch.py
 .DS_Store
+
+patch_*.py
+services/api-gateway/frontend/
+services/api-gateway/patch_*.py
