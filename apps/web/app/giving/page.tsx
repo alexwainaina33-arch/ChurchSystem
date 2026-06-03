@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useState, useRef } from "react";
 import Sidebar from "../../components/Sidebar";
 import api from "../../lib/api";
@@ -14,7 +14,7 @@ function GivingContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const [records, setRecords] = useState([]);
-  const [members, setMembers] = useState([]);
+  const [members, setMembers] = useState<any[]>([]);
   const [categories, setCategories] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -93,14 +93,14 @@ function GivingContent() {
       <Sidebar />
       <main className="flex-1 p-4 md:p-8 pb-24 md:pb-8">
         <div className="flex items-center gap-2 mb-1">
-          <Link href="/attendance" className="text-indigo-500 text-sm hover:underline">← Attendance</Link>
+          <Link href="/attendance" className="text-indigo-500 text-sm hover:underline">? Attendance</Link>
           <span className="text-gray-300">/</span>
           <span className="text-sm text-gray-600">Giving</span>
         </div>
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">Giving Records</h1>
-            <p className="text-gray-500 text-sm">{records.length} records · Total: <span className="font-semibold text-green-600">KES {total.toLocaleString()}</span></p>
+            <p className="text-gray-500 text-sm">{records.length} records � Total: <span className="font-semibold text-green-600">KES {total.toLocaleString()}</span></p>
           </div>
           <div className="flex gap-2">
             <button onClick={exportCSV} className="flex items-center gap-2 border border-gray-200 text-gray-600 px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
@@ -129,7 +129,7 @@ function GivingContent() {
                       {filteredMembers.map(m => (
                         <div key={m.id} onClick={() => { setSelectedMember(m); setSearch(""); setShowDropdown(false); }}
                           className="px-4 py-2 text-sm hover:bg-indigo-50 cursor-pointer">
-                          {m.first_name} {m.last_name} · {m.phone || "no phone"}
+                          {m.first_name} {m.last_name} � {m.phone || "no phone"}
                         </div>
                       ))}
                     </div>
@@ -180,7 +180,7 @@ function GivingContent() {
                   className="flex-1 border border-gray-200 text-gray-600 py-2 rounded-lg text-sm hover:bg-gray-50">Cancel</button>
                 <button onClick={save} disabled={saving}
                   className="flex-1 bg-indigo-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:opacity-50">
-                  {saving ? "Saving..." : "Save & Post GL →"}
+                  {saving ? "Saving..." : "Save & Post GL ?"}
                 </button>
               </div>
             </div>
@@ -199,7 +199,7 @@ function GivingContent() {
             <table className="w-full min-w-[600px]">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
-                  {["Date","Member","Category","Amount (KES)","Method","M-Pesa Ref","→ Member"].map(h => (
+                  {["Date","Member","Category","Amount (KES)","Method","M-Pesa Ref","? Member"].map(h => (
                     <th key={h} className="text-left text-xs text-gray-500 font-medium px-4 py-3">{h}</th>
                   ))}
                 </tr>
@@ -212,9 +212,9 @@ function GivingContent() {
                     <td className="px-4 py-3"><span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">{r.category_name}</span></td>
                     <td className="px-4 py-3 text-sm font-bold text-green-600">KES {r.amount_kes.toLocaleString()}</td>
                     <td className="px-4 py-3 text-sm text-gray-500 capitalize">{r.payment_method}</td>
-                    <td className="px-4 py-3 text-sm text-gray-500">{r.mpesa_ref || "—"}</td>
+                    <td className="px-4 py-3 text-sm text-gray-500">{r.mpesa_ref || "�"}</td>
                     <td className="px-4 py-3">
-                      {r.member_id && <Link href={"/members/" + r.member_id} className="text-indigo-600 text-xs hover:underline">View Member →</Link>}
+                      {r.member_id && <Link href={"/members/" + r.member_id} className="text-indigo-600 text-xs hover:underline">View Member ?</Link>}
                     </td>
                   </tr>
                 ))}
