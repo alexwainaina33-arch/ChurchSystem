@@ -1,4 +1,6 @@
-'use client'
+﻿import os
+os.makedirs('/app/frontend', exist_ok=True)
+txt = """'use client'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
@@ -263,3 +265,6 @@ export default function GivingPage() {
     </div>
   )
 }
+"""
+open('/app/frontend/giving_page.tsx', 'w').write(txt)
+print('done')
