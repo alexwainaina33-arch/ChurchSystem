@@ -37,7 +37,7 @@ export default function MessagesPage() {
         subject: d.subject, body: d.body,
         channel: d.channel, audience: d.audience
       });
-      setShowForm(false); form.reset(); load();
+      setShowForm(false); formRef.current?.reset(); load();
     } catch(e: any) {
       alert("Error: " + (e.response?.data?.detail || e.message));
     } finally { setSaving(false); }
