@@ -10,7 +10,7 @@ export default function MemberDetailPage() {
   const params = useParams();
   const id = params.id;
   const [member, setMember] = useState(null);
-  const [giving, setGiving] = useState([]);
+  const [giving, setGiving] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
